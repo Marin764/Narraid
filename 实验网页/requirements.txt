@@ -1,7 +1,0 @@
-flask==2.0.1
-numpy>=1.22.0
-torch>=2.0.0
-whisper-timestamped==1.15.8
-openai-whisper==20240927
-ffmpeg-python==0.2.0
-pydub==0.25.1 

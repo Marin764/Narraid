@@ -1,7 +1,19 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 export default function Home() {
+  const [imageHistory, setImageHistory] = useState<string[]>([])
+
+  useEffect(() => {
+    const savedImages = localStorage.getItem('generatedImages')
+    if (savedImages) {
+      setImageHistory(JSON.parse(savedImages))
+    }
+  }, [])
+
   return (
     <div className="p-8">
       <h1 className="text-center text-2xl font-bold text-[#00a0a0] mb-8">NarrAid</h1>
@@ -24,20 +36,26 @@ export default function Home() {
         </Link>
       </div>
 
-      <h2 className="text-center text-2xl font-bold text-[#00a0a0] mb-8">历史记录</h2>
+      <h2 className="text-center text-2xl font-bold text-[#00a0a0] mb-8">生成图片历史</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="history-card">
-          <Image src="/images/history1.png" alt="历史记录1" width={400} height={300} className="w-full h-auto" />
-        </div>
-
-        <div className="history-card">
-          <Image src="/images/history2.png" alt="历史记录2" width={400} height={300} className="w-full h-auto" />
-        </div>
-
-        <div className="history-card">
-          <Image src="/images/history3.png" alt="历史记录3" width={400} height={300} className="w-full h-auto" />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {imageHistory.length > 0 ? (
+          imageHistory.map((imageUrl, index) => (
+            <div key={index} className="history-card">
+              <Image 
+                src={imageUrl} 
+                alt={`生成图片 ${index + 1}`} 
+                width={400} 
+                height={300} 
+                className="w-full h-auto rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              />
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500">
+            暂无生成图片历史记录
+          </div>
+        )}
       </div>
     </div>
   )
